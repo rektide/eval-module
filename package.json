@@ -6,6 +6,7 @@
 	"dependencies": {
 		"es6-promisify": "^5.0.0",
 		"memoizee": "^0.4.1",
+		"rmdir": "^1.2.0",
 		"tmp": "0.0.30"
 	},
 	"devDependencies": {},
@@ -16,7 +17,11 @@
 		"type": "git",
 		"url": "https://archive.eldergods.com/eval-module"
 	},
-	"keywords": ["dynamic", "runtime", "modules"],
+	"keywords": [
+		"dynamic",
+		"runtime",
+		"modules"
+	],
 	"author": "rektide de la faye",
 	"license": "X11"
 }

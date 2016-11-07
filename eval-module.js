@@ -22,6 +22,9 @@ var
 	mode: 0o640
   }
 
+var knownDirs= []
+var knownFiles= []
+
 var evalModule= memoizee(function( source, name, dir){
 	if( !name){
 		name= hashes( source)
@@ -38,7 +41,9 @@ var paths= memoizee(function( name, dir){
 			return dirName + path.sep + name
 		})
 	}else{
-		return tmpFile( name)
+		var file= tmpFile( name)
+		knownFiles.push( file)
+		return file
 	}
 })
 var hashes= memoizee( function( source){
@@ -48,8 +53,11 @@ var hashes= memoizee( function( source){
 	  .digest( "hex")
 })
 var dirs= memoizee(function( dir){
-	var options= Object.assign({ prefix: dir + "_"}, dirOptions)
-	return tmpDir( options)
+	var
+	  options= Object.assign({ prefix: dir + "_"}, dirOptions)
+	  tmp= tmpDir( options)
+	knownDirs.push( tmp)
+	return tmp
 })
 
 function directory( dir){
