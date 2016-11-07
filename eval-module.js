@@ -9,8 +9,10 @@ var
   tmp= require( "tmp")
 
 var
+  rmdir= promisify( fs.rmdir),
   tmpFile= promisify( tmp.file),
   tmpDir= promisify( tmp.dir),
+  unlink= promisify( fs.unlink),
   writeFile= promisify( fs.writeFie)
 
 var
@@ -70,12 +72,18 @@ function directory( dir){
 
 /** install lifecycle events */
 function run(){
-	process.on( "exit", onExit)
+	process.on( "exit", deleteTmp)
 }
 
 /** lifecycle process exit event */
-function onExit(){
-	
+function deleteTmp(){
+	var files= knownFiles.map(function(file){
+		return unlink(file)
+	})
+	var dirs= knownDirs.map(function(dir){
+		return rmdir(dir)
+	})
+	return Promise.all(files.concat(dirs))
 }
 
 module.exports= evalModule
@@ -83,6 +91,6 @@ module.exports.evalModule= evalModule
 module.exports.directory= directory
 
 module.exports.run= run
-module.exports.onExit= onExit
+module.exports.deleteTmp= deleteTmp
 module.exports.writeOptions= writeOptions
 module.exports.dirOptions= dirOptions
