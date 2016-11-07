@@ -13,7 +13,7 @@ var
   tmpFile= promisify( tmp.file),
   tmpDir= promisify( tmp.dir),
   unlink= promisify( fs.unlink),
-  writeFile= promisify( fs.writeFie)
+  writeFile= promisify( fs.writeFile)
 
 var
   secret= "eval-module",
@@ -32,7 +32,7 @@ var evalModule= memoizee(function( source, name, dir){
 		name= hashes( source)
 	}
 	return paths( name, dir).then( function( path){
-		return writeFile( path, writeOptions, source).then(function(){
+		return writeFile( path, source, writeOptions).then(function(){
 			return require(path)
 		})
 	})
