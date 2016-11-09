@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+"use strict"
+
+function main(){
+	// create a module
+	var dynamicModule= require( "../eval-module")( "module.exports= {a: 'ok'}")
+	// print the module's contents
+	dynamicModule.then( module=> console.log(module.a))
+	return dynamicModule
+}
+
+module.exports= main
+module.exports.main= main
+
+if( require.main=== module){
+	main()
+}
